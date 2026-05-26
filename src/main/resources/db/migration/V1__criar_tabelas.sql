@@ -1,5 +1,5 @@
 CREATE TABLE pessoa (
-    idPessoa INT AUTO_INCREMENT PRIMARY KEY,
+    id_pessoa INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     cpf CHAR(11) NOT NULL UNIQUE,
     cep CHAR(9) NOT NULL,
@@ -8,16 +8,16 @@ CREATE TABLE pessoa (
 );
 
 CREATE TABLE livro (
-    idLivro INT AUTO_INCREMENT PRIMARY KEY,
+    id_livro INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     autor VARCHAR(100) NOT NULL,
-    dataLancamento DATE NOT NULL
+    data_lancamento DATE NOT NULL
 );
 
 CREATE TABLE emprestimo (
-    idEmprestimo INT AUTO_INCREMENT PRIMARY KEY,
-    idPessoa INT NOT NULL,
-    idLivro INT NOT NULL,
-    FOREIGN KEY (idPessoa) REFERENCES pessoa(idPessoa),
-    FOREIGN KEY (idLivro) REFERENCES livro(idLivro)
+    id_emprestimo INT AUTO_INCREMENT PRIMARY KEY,
+    id_pessoa INT NOT NULL,
+    id_livro INT NOT NULL,
+    FOREIGN KEY (id_pessoa) REFERENCES pessoa(id_pessoa),
+    FOREIGN KEY (id_livro) REFERENCES livro(id_livro)
 );
