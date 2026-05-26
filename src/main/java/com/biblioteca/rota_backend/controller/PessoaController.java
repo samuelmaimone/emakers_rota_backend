@@ -2,6 +2,9 @@ package com.biblioteca.rota_backend.controller;
 
 import com.biblioteca.rota_backend.model.Pessoa;
 import com.biblioteca.rota_backend.service.PessoaService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +22,7 @@ public class PessoaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pessoa> cadastrar(@RequestBody Pessoa pessoa) {
+    public ResponseEntity<Pessoa> cadastrar(@Valid @RequestBody Pessoa pessoa) {
         Pessoa novaPessoa = pessoaService.cadastrarPessoa(pessoa);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaPessoa);
     }
@@ -35,7 +38,7 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> atualizar(@PathVariable Integer id, @RequestBody Pessoa pessoa) {
+    public ResponseEntity<Pessoa> atualizar(@PathVariable Integer id, @Valid @RequestBody Pessoa pessoa) {
         return ResponseEntity.ok(pessoaService.atualizarPessoa(id, pessoa));
     }
 

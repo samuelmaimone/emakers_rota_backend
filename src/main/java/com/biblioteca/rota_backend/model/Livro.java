@@ -1,6 +1,8 @@
 package com.biblioteca.rota_backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -11,12 +13,15 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idLivro;
 
+    @NotBlank(message = "O nome do livro é obrigatório")
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @NotBlank(message = "O autor é obrigatório")
     @Column(nullable = false, length = 100)
     private String autor;
 
+    @NotNull(message = "A data de lançamento é obrigatória")
     @Column(nullable = false)
     private LocalDate dataLancamento;
 
