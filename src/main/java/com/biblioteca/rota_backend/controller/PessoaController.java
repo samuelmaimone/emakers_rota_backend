@@ -1,5 +1,6 @@
 package com.biblioteca.rota_backend.controller;
 
+import org.springframework.web.client.RestTemplate;
 import com.biblioteca.rota_backend.model.Pessoa;
 import com.biblioteca.rota_backend.service.PessoaService;
 
@@ -46,5 +47,17 @@ public class PessoaController {
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         pessoaService.deletarPessoa(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/endereco/{cep}")
+    public ResponseEntity<Object> consultarEnderecoViaCep(@PathVariable String cep) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        
+        String url = "https://viacep.com.br/ws/" + cep + "/json/";
+        
+        Object endereco = restTemplate.getForObject(url, Object.class);
+        
+        return ResponseEntity.ok(endereco);
     }
 }
