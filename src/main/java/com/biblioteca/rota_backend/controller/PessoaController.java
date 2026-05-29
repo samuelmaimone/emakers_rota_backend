@@ -1,5 +1,6 @@
 package com.biblioteca.rota_backend.controller;
 
+import com.biblioteca.rota_backend.service.TokenService;
 import org.springframework.web.client.RestTemplate;
 import com.biblioteca.rota_backend.model.Pessoa;
 import com.biblioteca.rota_backend.service.PessoaService;
@@ -17,9 +18,11 @@ import java.util.List;
 public class PessoaController {
 
     private final PessoaService pessoaService;
+    private final TokenService tokenService;
 
-    public PessoaController(PessoaService pessoaService) {
+    public PessoaController(PessoaService pessoaService, TokenService tokenService) {
         this.pessoaService = pessoaService;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
@@ -59,5 +62,18 @@ public class PessoaController {
         Object endereco = restTemplate.getForObject(url, Object.class);
         
         return ResponseEntity.ok(endereco);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Pessoa dadosLogin) {
+        for (Pessoa pessoaRegistada : pessoaService.listarTodas()) {
+            if (pessoaRegistada.getEmail().equals(dadosLogin.getEmail()) &&
+                pessoaRegistada.getSenha().equals(dadosLogin.getSenha())) {
+                
+                String token = tokenService.gerarPasseDeAcesso(pessoaRegistada.getEmail());
+                return ResponseEntity.ok(token);
+            }
+        }
+        return ResponseEntity.status(401).body("Credenciais inválidas. Verifique o email e a palavra-passe.");
     }
 }
